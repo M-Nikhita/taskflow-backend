@@ -61,7 +61,15 @@ cd taskflow-backend
 npm install
 ```
 
-### 2. Configure environment
+### 2. Configure MongoDB Atlas Network Access
+> ⚠️ **Important:** Before running the app, make sure your MongoDB Atlas cluster allows connections from your IP.
+> 1. Go to [MongoDB Atlas](https://cloud.mongodb.com) → your project → **Network Access**
+> 2. Click **"Add IP Address"** → select **"Allow Access from Anywhere"** (`0.0.0.0/0`)
+> 3. Click **Confirm**
+>
+> This is required for both local development and deployment on platforms like Render that use dynamic IPs.
+
+### 3. Configure environment
 Create a `.env` file (use `.env.example` as template):
 ```env
 MONGO_URI=your_mongodb_atlas_connection_string
@@ -70,7 +78,7 @@ PORT=5000
 CLIENT_URL=http://localhost:5173
 ```
 
-### 3. Run
+### 4. Run
 ```bash
 node server.js
 ```
@@ -82,3 +90,5 @@ Deployed on **Render** (free tier).
 - Build command: `npm install`
 - Start command: `node server.js`
 - Environment variables set in Render dashboard
+- **Do NOT set `PORT` manually** — Render injects the correct port automatically
+- Make sure MongoDB Atlas Network Access is set to allow `0.0.0.0/0`
