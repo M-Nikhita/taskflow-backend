@@ -13,12 +13,13 @@ connectDB();
 // Middleware
 app.use(cors({
   origin: (origin, callback) => {
-    // Allow requests with no origin (mobile apps, curl, Postman)
-    // or any localhost / 127.0.0.1 origin in development
-    if (!origin || /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
-      return callback(null, true);
-    }
-    // In production, only allow CLIENT_URL
+    // Allow no-origin requests (Postman, curl)
+    if (!origin) return callback(null, true);
+    // Allow any localhost port (dev)
+    if (/^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) return callback(null, true);
+    // Allow any Vercel deployment URL
+    if (/^https:\/\/.*\.vercel\.app$/.test(origin)) return callback(null, true);
+    // Allow explicit CLIENT_URL (production)
     if (origin === process.env.CLIENT_URL) return callback(null, true);
     callback(new Error('Not allowed by CORS'));
   },
